@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>株式会社プラチナシステム | SES・ITソリューション</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Noto+Sans+JP:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --bg:          #F7F6F2;
+            --bg-card:     #FFFFFF;
+            --bg-dark:     #0F1018;
+            --bg-dark-2:   #161820;
+            --text:        #111218;
+            --text-muted:  #6C6C74;
+            --text-faint:  #9899A2;
+            --accent:      #1055FF;
+            --accent-dim:  #E8EFFF;
+            --highlight:   #FF4D36;
+            --green:       #22C55E;
+            --amber:       #F59E0B;
+            --border:      #E4E2DA;
+            --border-dark: rgba(255,255,255,0.07);
+            --radius:      12px;
+            --max-w:       720px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'Noto Sans JP', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ─── ANIMATIONS ─────────────────────────────── */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(28px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to   { opacity: 1; }
+        }
+        @keyframes float {
+            0%,100% { transform: translateY(0); }
+            50%     { transform: translateY(-10px); }
+        }
+        @keyframes barGrow {
+            from { width: 0; }
+        }
+        @keyframes shimmer {
+            0%   { background-position: -200% center; }
+            100% { background-position:  200% center; }
+        }
+
+        .a1  { animation: fadeUp .65s ease .15s both; }
+        .a2  { animation: fadeUp .65s ease .30s both; }
+        .a3  { animation: fadeUp .65s ease .50s both; }
+        .a4  { animation: fadeUp .65s ease .70s both; }
+        .a5  { animation: fadeUp .65s ease .90s both; }
+        .a-vis { animation: fadeIn .7s ease .5s both; }
+
+        /* scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(26px);
+            transition: opacity .65s ease, transform .65s ease;
+        }
+        .reveal.in { opacity: 1; transform: translateY(0); }
+
+        /* ─── NAV ─────────────────────────────────────── */
+        nav {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+            height: 68px;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 0 max(24px, calc(50% - var(--max-w)));
+            background: rgba(247,246,242,.88);
+            backdrop-filter: blur(18px);
+            -webkit-backdrop-filter: blur(18px);
+            border-bottom: 1px solid transparent;
+            transition: border-color .3s, box-shadow .3s;
+        }
+        nav.scrolled {
+            border-color: var(--border);
+            box-shadow: 0 2px 16px rgba(0,0,0,.05);
+        }
+
+        .nav-logo {
+            font-family: 'Syne', sans-serif;
+            font-weight: 800; font-size: 1.25rem;
+            letter-spacing: -.03em;
+            color: var(--text); text-decoration: none;
+        }
+        .nav-logo em { color: var(--accent); font-style: normal; }
+
+        .nav-links {
+            display: flex; align-items: center; gap: 32px; list-style: none;
+        }
+        .nav-links a {
+            font-size: .85rem; font-weight: 500;
+            color: var(--text-muted); text-decoration: none;
+            transition: color .2s;
+        }
+        .nav-links a:hover { color: var(--text); }
+        .nav-cta {
+            background: var(--accent) !important;
+            color: #fff !important;
+            padding: 7px 18px !important;
+            border-radius: 100px;
+            transition: background .2s, transform .2s !important;
+        }
+        .nav-cta:hover {
+            background: #0843D8 !important;
+            transform: translateY(-1px);
+            color: #fff !important;
+        }
+
+        .hamburger {
+            display: none; flex-direction: column; gap: 5px;
+            cursor: pointer; padding: 4px;
+        }
+        .hamburger span {
+            display: block; width: 22px; height: 2px;
+            background: var(--text); border-radius: 2px;
+            transition: .3s;
+        }
+
+        /* ─── HERO ────────────────────────────────────── */
+        .hero {
+            min-height: 100svh;
+            padding: 110px max(24px, calc(50% - var(--max-w))) 80px;
+            display: grid;
+            grid-template-columns: 1.05fr .95fr;
+            align-items: center;
+            gap: 60px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* dot-grid bg */
+        .hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background-image:
+                radial-gradient(circle, rgba(16,85,255,.12) 1px, transparent 1px);
+            background-size: 36px 36px;
+            mask-image: radial-gradient(ellipse 70% 70% at 75% 50%,
+                #000 0%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse 70% 70% at 75% 50%,
+                #000 0%, transparent 100%);
+        }
+
+        .hero-chip {
+            display: inline-flex; align-items: center; gap: 7px;
+            font-family: 'DM Mono', monospace; font-size: .7rem;
+            background: var(--accent-dim); color: var(--accent);
+            padding: 5px 13px; border-radius: 100px;
+            margin-bottom: 26px;
+        }
+        .hero-chip::before {
+            content: '';
+            width: 6px; height: 6px;
+            background: var(--accent); border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%,100% { opacity: 1; transform: scale(1); }
+            50%      { opacity: .5; transform: scale(.8); }
+        }
+
+        h1 {
+            font-family: 'Syne', 'Noto Sans JP', sans-serif;
+            font-size: clamp(2.4rem, 5vw, 3.8rem);
+            font-weight: 800;
+            letter-spacing: -.04em; line-height: 1.12;
+            margin-bottom: 22px; color: var(--text);
+        }
+        h1 .blue { color: var(--accent); }
+
+        .hero-lead {
+            font-size: .95rem; color: var(--text-muted);
+            line-height: 1.85; max-width: 480px;
+            margin-bottom: 36px;
+        }
+
+        .hero-btns {
+            display: flex; gap: 12px; flex-wrap: wrap;
+            margin-bottom: 52px;
+        }
+
+        .btn {
+            display: inline-flex; align-items: center; gap: 7px;
+            font-family: 'Noto Sans JP', sans-serif;
+            font-size: .875rem; font-weight: 600;
+            padding: 13px 24px; border-radius: 8px;
+            text-decoration: none; cursor: pointer;
+            transition: transform .2s, box-shadow .2s, background .2s, border-color .2s, color .2s;
+            border: 1.5px solid transparent;
+        }
+        .btn-fill {
+            background: var(--accent); color: #fff;
+        }
+        .btn-fill:hover {
+            background: #0843D8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(16,85,255,.28);
+        }
+        .btn-outline {
+            border-color: var(--border); color: var(--text);
+            background: transparent;
+        }
+        .btn-outline:hover {
+            border-color: var(--accent); color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .hero-kpi {
+            display: flex; gap: 28px;
+            padding-top: 32px;
+            border-top: 1px solid var(--border);
+        }
+        .kpi-num {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.65rem; font-weight: 800;
+            letter-spacing: -.04em; line-height: 1;
+            color: var(--text);
+        }
+        .kpi-label {
+            font-size: .72rem; color: var(--text-muted); margin-top: 4px;
+        }
+
+        /* Hero visual */
+        .hero-visual {
+            position: relative;
+            display: flex; justify-content: center; align-items: center;
+        }
+
+        .hero-card {
+            width: 100%; max-width: 400px;
+            background: #fff;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: 0 12px 48px rgba(0,0,0,.09), 0 2px 8px rgba(0,0,0,.05);
+        }
+        .card-head {
+            display: flex; align-items: center; gap: 12px;
+            margin-bottom: 22px;
+        }
+        .card-icon {
+            width: 42px; height: 42px;
+            background: var(--accent-dim);
+            border-radius: 11px;
+            display: flex; align-items: center; justify-content: center;
+        }
+        .card-title  { font-family: 'Syne', sans-serif; font-size: .9rem; font-weight: 700; }
+        .card-sub    { font-size: .7rem; color: var(--text-muted); }
+
+        .bar-list { display: flex; flex-direction: column; gap: 11px; }
+        .bar-row  { display: flex; align-items: center; gap: 10px; }
+        .bar-name { font-size: .72rem; color: var(--text-muted); width: 88px; flex-shrink: 0; }
+        .bar-track {
+            flex: 1; height: 5px;
+            background: var(--bg); border-radius: 3px; overflow: hidden;
+        }
+        .bar-fill {
+            height: 100%; border-radius: 3px;
+            animation: barGrow .9s ease .7s both;
+        }
+        .bar-pct { font-family: 'DM Mono', monospace; font-size: .67rem; color: var(--text-faint); width: 28px; text-align: right; }
+
+        /* floating badges */
+        .badge {
+            position: absolute;
+            background: #fff;
+            border-radius: 100px;
+            padding: 9px 15px;
+            box-shadow: 0 6px 24px rgba(0,0,0,.1);
+            display: flex; align-items: center; gap: 7px;
+            white-space: nowrap; font-size: .72rem; font-weight: 600;
+        }
+        .badge-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+        .badge-1 { top: -18px; right: -12px; animation: float 4s ease-in-out infinite; }
+        .badge-2 { bottom: -16px; left: -12px; animation: float 4s ease-in-out 2s infinite; }
+
+        /* ─── SECTION BASE ───────────────────────────── */
+        .sec {
+            padding: 96px max(24px, calc(50% - var(--max-w)));
+        }
+
+        .sec-tag {
+            display: inline-flex; align-items: center; gap: 7px;
+            font-family: 'DM Mono', monospace;
+            font-size: .68rem; letter-spacing: .12em;
+            text-transform: uppercase; color: var(--accent);
+            margin-bottom: 14px;
+        }
+        .sec-tag::before { content: ''; width: 18px; height: 1.5px; background: var(--accent); }
+
+        h2 {
+            font-family: 'Syne', 'Noto Sans JP', sans-serif;
+            font-size: clamp(1.8rem, 3.5vw, 2.6rem);
+            font-weight: 800; letter-spacing: -.04em; line-height: 1.2;
+            margin-bottom: 14px; color: var(--text);
+        }
+        .sec-body {
+            font-size: .95rem; color: var(--text-muted);
+            line-height: 1.85; max-width: 520px;
+        }
+        .sec-hd { margin-bottom: 56px; }
+
+        /* ─── SERVICES ───────────────────────────────── */
+        .services { background: #fff; }
+
+        .svc-grid {
+            display: grid;
+            grid-template-columns: repeat(3,1fr);
+            gap: 20px;
+        }
+        .svc-card {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 32px;
+            transition: transform .3s, box-shadow .3s, border-color .3s;
+        }
+        .svc-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0,0,0,.1);
+            border-color: rgba(16,85,255,.2);
+        }
+        .svc-icon {
+            width: 52px; height: 52px;
+            background: var(--accent-dim);
+            border-radius: 13px;
+            display: flex; align-items: center; justify-content: center;
+            margin-bottom: 22px;
+            transition: background .3s;
+        }
+        .svc-card:hover .svc-icon { background: var(--accent); }
+        .svc-card:hover .svc-icon svg { stroke: #fff; }
+        .svc-no {
+            font-family: 'DM Mono', monospace; font-size: .63rem;
+            letter-spacing: .1em; text-transform: uppercase;
+            color: var(--accent); margin-bottom: 9px;
+        }
+        .svc-title {
+            font-family: 'Syne', 'Noto Sans JP', sans-serif;
+            font-size: 1.15rem; font-weight: 700;
+            color: var(--text); margin-bottom: 10px; line-height: 1.4;
+        }
+        .svc-desc { font-size: .82rem; color: var(--text-muted); line-height: 1.85; }
+        .svc-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-top: 18px; }
+        .svc-tag {
+            font-family: 'DM Mono', monospace; font-size: .62rem;
+            padding: 3px 9px;
+            background: #fff; color: var(--text-muted);
+            border: 1px solid var(--border); border-radius: 4px;
+        }
+
+        /* ─── STRENGTHS (dark) ───────────────────────── */
+        .strengths {
+            background: var(--bg-dark);
+            padding: 96px max(24px, calc(50% - var(--max-w)));
+        }
+        .strengths .sec-tag { color: rgba(100,140,255,.8); }
+        .strengths h2       { color: #fff; }
+        .strengths .sec-body { color: rgba(255,255,255,.45); }
+
+        .kpi-grid {
+            display: grid; grid-template-columns: repeat(4,1fr);
+            gap: 1px; background: rgba(255,255,255,.06);
+            border-radius: 16px; overflow: hidden;
+            margin: 52px 0;
+        }
+        .kpi-cell {
+            background: var(--bg-dark-2);
+            padding: 36px 28px;
+            transition: background .3s;
+        }
+        .kpi-cell:hover { background: #1c1f2a; }
+        .kpi-big {
+            font-family: 'Syne', sans-serif;
+            font-size: 2.8rem; font-weight: 800;
+            color: var(--accent); letter-spacing: -.05em; line-height: 1;
+        }
+        .kpi-big .unit { font-size: 1.3rem; font-weight: 700; }
+        .kpi-desc {
+            font-size: .8rem; color: rgba(255,255,255,.4);
+            margin-top: 9px; line-height: 1.6;
+        }
+
+        .pts-grid {
+            display: grid; grid-template-columns: repeat(2,1fr); gap: 20px;
+        }
+        .pt {
+            display: flex; gap: 14px;
+            background: rgba(255,255,255,.04);
+            border: 1px solid var(--border-dark);
+            border-radius: 12px; padding: 24px;
+        }
+        .pt-icon {
+            width: 38px; height: 38px; flex-shrink: 0;
+            background: rgba(16,85,255,.18);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 1.05rem;
+        }
+        .pt-title { font-size: .9rem; font-weight: 600; color: #fff; margin-bottom: 5px; }
+        .pt-desc  { font-size: .78rem; color: rgba(255,255,255,.4); line-height: 1.7; }
+
+        /* ─── RECRUITMENT ────────────────────────────── */
+        .recruitment { background: var(--bg); }
+
+        .rec-top {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 72px; align-items: end; margin-bottom: 52px;
+        }
+        .rec-note { font-size: .9rem; color: var(--text-muted); line-height: 1.85; }
+
+        .jobs {
+            display: grid; grid-template-columns: repeat(2,1fr); gap: 18px;
+        }
+        .job {
+            background: #fff;
+            border: 1px solid var(--border);
+            border-radius: var(--radius);
+            padding: 26px;
+            text-decoration: none; color: inherit;
+            display: flex; flex-direction: column; gap: 14px;
+            transition: transform .25s, box-shadow .25s, border-color .25s;
+        }
+        .job:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 14px 36px rgba(0,0,0,.09);
+            border-color: var(--accent);
+        }
+        .job-top { display: flex; justify-content: space-between; align-items: flex-start; }
+        .jbadge {
+            font-family: 'DM Mono', monospace; font-size: .63rem;
+            padding: 3px 10px; border-radius: 100px;
+            background: var(--accent-dim); color: var(--accent);
+        }
+        .jbadge.hot { background: #FFF3E8; color: #D97706; }
+        .jarrow {
+            width: 28px; height: 28px;
+            border: 1.5px solid var(--border); border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            font-size: .8rem; color: var(--text-muted);
+            transition: background .2s, border-color .2s, color .2s;
+        }
+        .job:hover .jarrow { background: var(--accent); border-color: var(--accent); color: #fff; }
+        .jtitle {
+            font-family: 'Syne', 'Noto Sans JP', sans-serif;
+            font-size: 1.05rem; font-weight: 700; line-height: 1.45; color: var(--text);
+        }
+        .jtags { display: flex; flex-wrap: wrap; gap: 6px; }
+        .jtag { font-size: .72rem; color: var(--text-muted); padding: 3px 9px; background: var(--bg); border-radius: 4px; }
+        .jsal {
+            font-family: 'DM Mono', monospace; font-size: .77rem;
+            color: var(--text-faint); display: flex; align-items: center; gap: 5px;
+        }
+
+        /* ─── CONTACT ────────────────────────────────── */
+        .contact { background: #fff; }
+
+        .ct-grid {
+            display: grid; grid-template-columns: 1fr 1.65fr;
+            gap: 72px; align-items: start;
+        }
+
+        .ct-details { display: flex; flex-direction: column; }
+        .ct-row {
+            display: flex; gap: 14px; align-items: flex-start;
+            padding: 18px 0; border-bottom: 1px solid var(--border);
+        }
+        .ct-row:first-child { border-top: 1px solid var(--border); }
+        .ct-ico {
+            width: 36px; height: 36px; flex-shrink: 0;
+            background: var(--accent-dim); border-radius: 9px;
+            display: flex; align-items: center; justify-content: center; font-size: .95rem;
+        }
+        .ct-lbl  { font-size: .72rem; color: var(--text-muted); margin-bottom: 2px; }
+        .ct-val  { font-size: .88rem; font-weight: 500; color: var(--text); line-height: 1.5; }
+
+        /* form */
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+        .fg { margin-bottom: 14px; }
+        .fg label {
+            display: block; font-size: .78rem; font-weight: 500;
+            color: var(--text); margin-bottom: 5px;
+        }
+        .fg label .req { color: var(--highlight); margin-left: 2px; }
+
+        .fi {
+            width: 100%; padding: 11px 14px;
+            background: var(--bg); color: var(--text);
+            border: 1.5px solid var(--border); border-radius: 8px;
+            font-size: .875rem; font-family: 'Noto Sans JP', sans-serif;
+            outline: none; transition: border-color .2s, box-shadow .2s;
+        }
+        .fi::placeholder { color: var(--text-faint); }
+        .fi:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(16,85,255,.08);
+        }
+        textarea.fi { resize: vertical; min-height: 120px; }
+        select.fi {
+            appearance: none; cursor: pointer;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='7' viewBox='0 0 12 7'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%236C6C74' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+            background-repeat: no-repeat; background-position: right 13px center;
+        }
+        .submit-btn {
+            width: 100%; margin-top: 6px;
+            padding: 15px; border: none; border-radius: 8px;
+            background: var(--accent); color: #fff;
+            font-size: .95rem; font-weight: 700;
+            font-family: 'Noto Sans JP', sans-serif;
+            cursor: pointer;
+            transition: background .2s, transform .2s, box-shadow .2s;
+        }
+        .submit-btn:hover {
+            background: #0843D8;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 22px rgba(16,85,255,.25);
+        }
+        .submit-btn:disabled { background: var(--green); cursor: default; transform: none; box-shadow: none; }
+        .form-note { font-size: .72rem; color: var(--text-faint); text-align: center; margin-top: 10px; }
+        .form-note a { color: var(--accent); text-decoration: none; }
+
+        /* ─── FOOTER ─────────────────────────────────── */
+        footer {
+            background: var(--bg-dark);
+            padding: 56px max(24px, calc(50% - var(--max-w))) 28px;
+        }
+        .ft-grid {
+            display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr;
+            gap: 44px; margin-bottom: 44px;
+        }
+        .ft-logo {
+            font-family: 'Syne', sans-serif; font-weight: 800;
+            font-size: 1.2rem; letter-spacing: -.03em;
+            color: #fff; margin-bottom: 14px;
+        }
+        .ft-logo em { color: var(--accent); font-style: normal; }
+        .ft-blurb { font-size: .78rem; color: rgba(255,255,255,.35); line-height: 1.8; max-width: 220px; }
+        .ft-hed { font-size: .7rem; font-weight: 700; color: rgba(255,255,255,.45); text-transform: uppercase; letter-spacing: .08em; margin-bottom: 14px; }
+        .ft-ul { display: flex; flex-direction: column; gap: 9px; list-style: none; }
+        .ft-ul a { font-size: .82rem; color: rgba(255,255,255,.35); text-decoration: none; transition: color .2s; }
+        .ft-ul a:hover { color: rgba(255,255,255,.75); }
+        .ft-bottom {
+            border-top: 1px solid rgba(255,255,255,.06);
+            padding-top: 24px;
+            display: flex; justify-content: space-between; align-items: center;
+        }
+        .ft-copy { font-size: .77rem; color: rgba(255,255,255,.28); }
+        .ft-leg { display: flex; gap: 22px; }
+        .ft-leg a { font-size: .77rem; color: rgba(255,255,255,.28); text-decoration: none; transition: color .2s; }
+        .ft-leg a:hover { color: rgba(255,255,255,.55); }
+
+        /* ─── RESPONSIVE ─────────────────────────────── */
+        @media (max-width: 960px) {
+            .svc-grid { grid-template-columns: 1fr; }
+            .kpi-grid { grid-template-columns: repeat(2,1fr); }
+            .ft-grid  { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            h1 { font-size: 2.2rem; }
+            .hero { grid-template-columns: 1fr; padding-top: 96px; }
+            .hero-visual { display: none; }
+            .hero-kpi { gap: 20px; }
+            .rec-top { grid-template-columns: 1fr; gap: 20px; }
+            .jobs { grid-template-columns: 1fr; }
+            .pts-grid { grid-template-columns: 1fr; }
+            .ct-grid { grid-template-columns: 1fr; }
+            .form-row { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .hamburger { display: flex; }
+            .ft-grid { grid-template-columns: 1fr; }
+            .ft-bottom { flex-direction: column; gap: 14px; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══ NAV ═══════════════════════════════════════════ -->
+<nav id="nav">
+    <a href="#" class="nav-logo">プラチナ<em>システム</em></a>
+    <ul class="nav-links">
+        <li><a href="#services">サービス</a></li>
+        <li><a href="#strengths">強み</a></li>
+        <li><a href="#recruitment">採用情報</a></li>
+        <li><a href="#contact" class="nav-cta">お問い合わせ</a></li>
+    </ul>
+    <div class="hamburger" onclick="toggleMenu(this)">
+        <span></span><span></span><span></span>
+    </div>
+</nav>
+
+<!-- ═══ HERO ═══════════════════════════════════════════ -->
+<section class="hero" id="home">
+    <div>
+        <div class="hero-chip a1">IT・SESソリューション</div>
+        <h1 class="a2">
+            最適な<span class="blue">エンジニア</span>を、<br>
+            最速で届ける。
+        </h1>
+        <p class="hero-lead a3">
+            株式会社プラチナシステムは、即戦力エンジニアのマッチングからシステム開発・ITコンサルまで、
+            貴社のDX推進をワンストップで支援するSES企業です。
+        </p>
+        <div class="hero-btns a4">
+            <a href="#contact" class="btn btn-fill">
+                無料相談を申し込む
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M2 7h10M7 2l5 5-5 5"/></svg>
+            </a>
+            <a href="#services" class="btn btn-outline">サービス詳細</a>
+        </div>
+    </div>
+
+    <div class="hero-visual a-vis">
+        <div style="position:relative; width:100%; max-width:380px;">
+            <div class="hero-card">
+                <div class="card-head">
+                    <div class="card-icon">
+                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                            <rect x="2" y="2" width="7" height="7" rx="1.5" fill="#1055FF" opacity=".9"/>
+                            <rect x="11" y="2" width="7" height="7" rx="1.5" fill="#1055FF" opacity=".4"/>
+                            <rect x="2" y="11" width="7" height="7" rx="1.5" fill="#1055FF" opacity=".4"/>
+                            <rect x="11" y="11" width="7" height="7" rx="1.5" fill="#1055FF" opacity=".9"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="card-title">エンジニアマッチング</div>
+                        <div class="card-sub">スキル別カバー率</div>
+                    </div>
+                </div>
+                <div class="bar-list">
+                    <div class="bar-row">
+                        <span class="bar-name">バックエンド</span>
+                        <div class="bar-track"><div class="bar-fill" style="width:88%;background:#1055FF"></div></div>
+                        <span class="bar-pct">88%</span>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-name">フロントエンド</span>
+                        <div class="bar-track"><div class="bar-fill" style="width:76%;background:#7C3AED"></div></div>
+                        <span class="bar-pct">76%</span>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-name">インフラ / クラウド</span>
+                        <div class="bar-track"><div class="bar-fill" style="width:64%;background:#0EA5E9"></div></div>
+                        <span class="bar-pct">64%</span>
+                    </div>
+                    <div class="bar-row">
+                        <span class="bar-name">PM / PL</span>
+                        <div class="bar-track"><div class="bar-fill" style="width:52%;background:#10B981"></div></div>
+                        <span class="bar-pct">52%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="badge badge-1">
+                <span class="badge-dot" style="background:var(--green)"></span>
+                最短2営業日でマッチング
+            </div>
+            <div class="badge badge-2">
+                <span class="badge-dot" style="background:var(--amber)"></span>
+                現在 14名 マッチング中
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ SERVICES ════════════════════════════════════════ -->
+<section class="sec services" id="services">
+    <div class="sec-hd reveal">
+        <div class="sec-tag">Services</div>
+        <h2>ITの課題を、まるごと解決。</h2>
+        <p class="sec-body">SES事業を核に、システム開発からITコンサルティングまで、ワンストップでご支援します。</p>
+    </div>
+    <div class="svc-grid">
+
+        <div class="svc-card reveal">
+            <div class="svc-icon">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#1055FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M15 19v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                    <circle cx="8" cy="7" r="3.5"/>
+                    <path d="M21 19v-2a4 4 0 0 0-3-3.87"/>
+                    <path d="M15 3.13a4 4 0 0 1 0 7.75"/>
+                </svg>
+            </div>
+            <div class="svc-no">01 — SES</div>
+            <h3 class="svc-title">SES・エンジニア<br>派遣サービス</h3>
+            <p class="svc-desc">即戦力エンジニアを迅速にご紹介。短期〜長期・スポット対応まで、プロジェクト規模に合わせた柔軟な体制を構築します。</p>
+            <div class="svc-tags">
+                <span class="svc-tag">Java</span><span class="svc-tag">Python</span>
+                <span class="svc-tag">Go</span><span class="svc-tag">React</span>
+                <span class="svc-tag">AWS</span><span class="svc-tag">インフラ</span>
+            </div>
+        </div>
+
+        <div class="svc-card reveal" style="transition-delay:.1s">
+            <div class="svc-icon">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#1055FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="15 17 21 11 15 5"/><polyline points="7 5 1 11 7 17"/>
+                </svg>
+            </div>
+            <div class="svc-no">02 — 開発</div>
+            <h3 class="svc-title">システム開発・<br>受託開発</h3>
+            <p class="svc-desc">要件定義から設計・実装・テスト・運用保守まで一貫対応。アジャイル・ウォーターフォールどちらにも柔軟に対応します。</p>
+            <div class="svc-tags">
+                <span class="svc-tag">Webアプリ</span><span class="svc-tag">スマホアプリ</span>
+                <span class="svc-tag">API開発</span><span class="svc-tag">DX推進</span>
+            </div>
+        </div>
+
+        <div class="svc-card reveal" style="transition-delay:.2s">
+            <div class="svc-icon">
+                <svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#1055FF" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                    <polygon points="13 2 3 14 12 14 9 22 21 10 12 10 13 2"/>
+                </svg>
+            </div>
+            <div class="svc-no">03 — コンサル</div>
+            <h3 class="svc-title">ITコンサルティング・<br>技術支援</h3>
+            <p class="svc-desc">技術選定・アーキテクチャ設計・チームビルディングを支援。CTO不在の企業様の技術顧問としてもご活用いただけます。</p>
+            <div class="svc-tags">
+                <span class="svc-tag">技術顧問</span><span class="svc-tag">クラウド移行</span>
+                <span class="svc-tag">セキュリティ</span><span class="svc-tag">内製化支援</span>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<!-- ═══ STRENGTHS ══════════════════════════════════════ -->
+<section class="strengths" id="strengths">
+    <div class="sec-hd reveal">
+        <div class="sec-tag">Why プラチナシステム</div>
+        <h2>選ばれる理由</h2>
+        <p class="sec-body">創業以来積み重ねてきた実績と信頼。技術と人を大切にする文化が、高品質なサービスを支えています。</p>
+    </div>
+
+    <div class="kpi-grid reveal">
+        <div class="kpi-cell">
+            <div class="kpi-big"><span class="cnt" data-n="300">0</span><span class="unit">+</span></div>
+            <div class="kpi-desc">登録エンジニア数</div>
+        </div>
+        <div class="kpi-cell">
+            <div class="kpi-big"><span class="cnt" data-n="120">0</span><span class="unit">+</span></div>
+            <div class="kpi-desc">取引企業数</div>
+        </div>
+        <div class="kpi-cell">
+            <div class="kpi-big"><span class="cnt" data-n="95">0</span><span class="unit">%</span></div>
+            <div class="kpi-desc">顧客継続率</div>
+        </div>
+        <div class="kpi-cell">
+            <div class="kpi-big"><span class="cnt" data-n="12">0</span><span class="unit">年</span></div>
+            <div class="kpi-desc">設立からの実績</div>
+        </div>
+    </div>
+
+    <div class="pts-grid reveal">
+        <div class="pt">
+            <div class="pt-icon">⚡</div>
+            <div>
+                <div class="pt-title">最短2営業日でのマッチング</div>
+                <div class="pt-desc">専任コーディネーターがご要件をヒアリングし、最短2営業日以内に最適なエンジニアをご提案します。</div>
+            </div>
+        </div>
+        <div class="pt">
+            <div class="pt-icon">🎯</div>
+            <div>
+                <div class="pt-title">高精度スキルマッチング</div>
+                <div class="pt-desc">独自評価システムで技術力・人柄・カルチャーフィットを総合評価。ミスマッチを最小化します。</div>
+            </div>
+        </div>
+        <div class="pt">
+            <div class="pt-icon">🛡️</div>
+            <div>
+                <div class="pt-title">参画後も手厚いフォロー体制</div>
+                <div class="pt-desc">専任担当が定期的にフォロー。エンジニアとクライアント双方が長く安心して働ける環境を整えます。</div>
+            </div>
+        </div>
+        <div class="pt">
+            <div class="pt-icon">📊</div>
+            <div>
+                <div class="pt-title">幅広い技術領域に対応</div>
+                <div class="pt-desc">フロントエンドからインフラ、データエンジニア、AI開発まで多様なスキルセットのエンジニアが在籍。</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ═══ RECRUITMENT ════════════════════════════════════ -->
+<section class="sec recruitment" id="recruitment">
+    <div class="rec-top">
+        <div>
+            <div class="sec-tag reveal">Recruitment</div>
+            <h2 class="reveal">一緒に、未来の<br>ITを創ろう。</h2>
+        </div>
+        <p class="rec-note reveal">
+            株式会社プラチナシステムでは、エンジニアとして成長したい方を積極採用中。
+            スキルアップ支援・柔軟な働き方で、あなたのキャリアを全力でサポートします。
+        </p>
+    </div>
+    <div class="jobs">
+
+        <a href="#contact" class="job reveal">
+            <div class="job-top">
+                <span class="jbadge">募集中</span>
+                <div class="jarrow">→</div>
+            </div>
+            <div class="jtitle">バックエンドエンジニア<br>（Java / Python / Go）</div>
+            <div class="jtags">
+                <span class="jtag">正社員</span><span class="jtag">リモート可</span><span class="jtag">経験3年〜</span>
+            </div>
+            <div class="jsal">💰 年収 450〜800万円</div>
+        </a>
+
+        <a href="#contact" class="job reveal" style="transition-delay:.1s">
+            <div class="job-top">
+                <span class="jbadge hot">急募</span>
+                <div class="jarrow">→</div>
+            </div>
+            <div class="jtitle">フロントエンドエンジニア<br>（React / Vue / TypeScript）</div>
+            <div class="jtags">
+                <span class="jtag">正社員</span><span class="jtag">週3〜可</span><span class="jtag">経験2年〜</span>
+            </div>
+            <div class="jsal">💰 年収 400〜750万円</div>
+        </a>
+
+        <a href="#contact" class="job reveal" style="transition-delay:.15s">
+            <div class="job-top">
+                <span class="jbadge">募集中</span>
+                <div class="jarrow">→</div>
+            </div>
+            <div class="jtitle">インフラ・クラウドエンジニア<br>（AWS / GCP / Azure）</div>
+            <div class="jtags">
+                <span class="jtag">正社員</span><span class="jtag">フルリモート可</span><span class="jtag">経験3年〜</span>
+            </div>
+            <div class="jsal">💰 年収 480〜850万円</div>
+        </a>
+
+        <a href="#contact" class="job reveal" style="transition-delay:.2s">
+            <div class="job-top">
+                <span class="jbadge">募集中</span>
+                <div class="jarrow">→</div>
+            </div>
+            <div class="jtitle">プロジェクトマネージャー<br>（PM / PL）</div>
+            <div class="jtags">
+                <span class="jtag">正社員</span><span class="jtag">管理職候補</span><span class="jtag">経験5年〜</span>
+            </div>
+            <div class="jsal">💰 年収 600〜1,000万円</div>
+        </a>
+
+    </div>
+</section>
+
+<!-- ═══ CONTACT ════════════════════════════════════════ -->
+<section class="sec contact" id="contact">
+    <div class="sec-hd reveal">
+        <div class="sec-tag">Contact</div>
+        <h2>まずは、お気軽に<br>ご相談ください。</h2>
+        <p class="sec-body">SES・システム開発・採用など、どんなご相談もお気軽に。専任担当が迅速にご対応します。</p>
+    </div>
+    <div class="ct-grid">
+        <div class="ct-details reveal">
+            <div class="ct-row">
+                <div class="ct-ico">📍</div>
+                <div>
+                    <div class="ct-lbl">所在地</div>
+                    <div class="ct-val">〒154-0014<br>東京都世田谷区新町１－２９－１１</div>
+                </div>
+            </div>
+            <div class="ct-row">
+                <div class="ct-ico">📞</div>
+                <div>
+                    <div class="ct-lbl">電話番号</div>
+                    <div class="ct-val">090-8464-1019<br><span style="font-size:.78rem;color:var(--text-muted)">平日 9:00〜18:00</span></div>
+                </div>
+            </div>
+            <div class="ct-row">
+                <div class="ct-ico">✉️</div>
+                <div>
+                    <div class="ct-lbl">メールアドレス</div>
+                    <div class="ct-val">info@platinum-system.jp</div>
+                </div>
+            </div>
+        </div>
+
+        <form class="reveal" style="transition-delay:.1s" onsubmit="onSubmit(event)">
+            <div class="form-row">
+                <div class="fg">
+                    <label>お名前<span class="req">*</span></label>
+                    <input type="text" class="fi" placeholder="山田 太郎" required>
+                </div>
+                <div class="fg">
+                    <label>会社名</label>
+                    <input type="text" class="fi" placeholder="株式会社〇〇">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="fg">
+                    <label>メールアドレス<span class="req">*</span></label>
+                    <input type="email" class="fi" placeholder="you@company.com" required>
+                </div>
+                <div class="fg">
+                    <label>電話番号</label>
+                    <input type="tel" class="fi" placeholder="03-0000-0000">
+                </div>
+            </div>
+            <div class="fg">
+                <label>お問い合わせ内容<span class="req">*</span></label>
+                <select class="fi" required>
+                    <option value="" disabled selected>選択してください</option>
+                    <option>SES・エンジニア派遣について</option>
+                    <option>システム開発・受託開発について</option>
+                    <option>ITコンサルティングについて</option>
+                    <option>採用について</option>
+                    <option>その他</option>
+                </select>
+            </div>
+            <div class="fg">
+                <label>メッセージ<span class="req">*</span></label>
+                <textarea class="fi" placeholder="お問い合わせ内容をご記入ください..." required></textarea>
+            </div>
+            <button type="submit" class="submit-btn" id="submitBtn">送信する</button>
+            <p class="form-note">送信することで、<a href="#">プライバシーポリシー</a>に同意したことになります。</p>
+        </form>
+    </div>
+</section>
+
+<!-- ═══ FOOTER ═════════════════════════════════════════ -->
+<footer>
+    <div class="ft-grid">
+        <div>
+            <div class="ft-logo">プラチナ<em>システム</em></div>
+            <p class="ft-blurb">SES・システム開発・ITコンサルティングを通じて、企業のDX推進を支援するIT会社です。</p>
+        </div>
+        <div>
+            <div class="ft-hed">Services</div>
+            <ul class="ft-ul">
+                <li><a href="#services">SES・派遣サービス</a></li>
+                <li><a href="#services">システム開発</a></li>
+                <li><a href="#services">ITコンサルティング</a></li>
+            </ul>
+        </div>
+        <div>
+            <div class="ft-hed">Company</div>
+            <ul class="ft-ul">
+                <li><a href="#strengths">会社概要</a></li>
+                <li><a href="#recruitment">採用情報</a></li>
+                <li><a href="#contact">お問い合わせ</a></li>
+            </ul>
+        </div>
+        <div>
+            <div class="ft-hed">Follow</div>
+            <ul class="ft-ul">
+                <li><a href="#">Twitter / X</a></li>
+                <li><a href="#">LinkedIn</a></li>
+                <li><a href="#">Wantedly</a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="ft-bottom">
+        <p class="ft-copy">© 2011 株式会社プラチナシステム. All rights reserved.</p>
+        <div class="ft-leg">
+            <a href="#">プライバシーポリシー</a>
+            <a href="#">利用規約</a>
+        </div>
+    </div>
+</footer>
+
+<script>
+/* ── Nav scroll effect ── */
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 20);
+}, { passive: true });
+
+/* ── Hamburger ── */
+function toggleMenu(el) {
+    const ul = document.querySelector('.nav-links');
+    const open = ul.style.display === 'flex';
+    ul.style.cssText = open
+        ? 'display:none'
+        : 'display:flex;flex-direction:column;gap:14px;position:fixed;top:68px;left:0;right:0;background:rgba(247,246,242,.96);padding:24px max(24px, calc(50% - 720px));backdrop-filter:blur(18px);border-bottom:1px solid #E4E2DA;z-index:199;';
+    el.querySelector('span:nth-child(1)').style.transform = open ? '' : 'rotate(45deg) translate(4px,4px)';
+    el.querySelector('span:nth-child(2)').style.opacity   = open ? '' : '0';
+    el.querySelector('span:nth-child(3)').style.transform = open ? '' : 'rotate(-45deg) translate(4px,-4px)';
+}
+
+/* ── Scroll reveal ── */
+const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+}, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+/* ── Counter animation ── */
+function animCount(el, to, dur = 1400) {
+    const start = performance.now();
+    const step = (now) => {
+        const p = Math.min((now - start) / dur, 1);
+        const ease = 1 - Math.pow(1 - p, 3);
+        el.textContent = Math.round(ease * to);
+        if (p < 1) requestAnimationFrame(step);
+        else el.textContent = to;
+    };
+    requestAnimationFrame(step);
+}
+
+/* hero counters (fire on load after animation) */
+setTimeout(() => {
+    document.querySelectorAll('[data-count]').forEach(el => {
+        animCount(el, +el.dataset.count);
+    });
+}, 900);
+
+/* dark section counters (fire on scroll) */
+const cntObs = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.querySelectorAll('.cnt').forEach(el => animCount(el, +el.dataset.n));
+        cntObs.unobserve(e.target);
+    });
+}, { threshold: .4 });
+document.querySelector('.kpi-grid') && cntObs.observe(document.querySelector('.kpi-grid'));
+
+/* ── Form submit ── */
+function onSubmit(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submitBtn');
+    btn.textContent = '✓ 送信完了！ありがとうございました。';
+    btn.disabled = true;
+    btn.style.background = '#22C55E';
+}
+</script>
+</body>
+</html>
